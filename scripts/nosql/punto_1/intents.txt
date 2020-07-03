@@ -1,0 +1,38 @@
+Intento 1
+var miCursor = db.newHistorial.aggregate([
+   {$group: {
+	   _id:'$destino',
+	   cantidad: {$sum: 1}
+   }}
+]).toArray();
+
+let max;
+for (let i = 0; i < miCursor.length; i++) {
+	if (max == null || miCursor[i].cantidad > max.cantidad) {
+		max = miCursor[i];
+	}
+}
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Intento 2
+db.newHistorial.aggregate([
+	{$group: {
+		_id: '$destino',
+		suma: {$sum: 1}
+	}},
+	{$sort: {suma: -1}},
+	{$limit: 1}
+])
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Intento 3 (fallido)
+db.newHistorial.aggregate([
+	{$group: {
+		_id: {destino: '$destino'},
+		suma: {$sum: 1}
+	}},
+	{$group: {
+		_id: 0,
+		suma: {$max: '$suma'}
+	}}
+])

@@ -1,0 +1,1 @@
+ALTER TABLE `aterrizApp`.`USUARIO` MODIFY `saldo` DOUBLE NOT NULL;

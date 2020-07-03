@@ -1,0 +1,44 @@
+﻿mkdir data
+mkdir data/mongodb
+mkdir data/mongodb/sharding
+
+mkdir data/mongodb/sharding/cfg1
+mkdir data/mongodb/sharding/cfg2
+mkdir data/mongodb/sharding/shard1
+mkdir data/mongodb/sharding/shard2
+mkdir data/mongodb/sharding/repl1
+mkdir data/mongodb/sharding/repl2
+
+mongod --configsvr --replSet rsConf --dbpath ./data/mongodb/sharding/cfg1 --port 26050 --fork --logpath ./data/mongodb/sharding/log.cfg1 --logappend
+mongod --configsvr --replSet rsConf --dbpath ./data/mongodb/sharding/cfg2 --port 26051 --fork --logpath ./data/mongodb/sharding/log.cfg2 --logappend
+
+mongod --shardsvr --replSet shard1 --dbpath ./data/mongodb/sharding/shard1 --logpath ./data/mongodb/sharding/log.shard1 --port 27000 --fork --logappend --oplogSize 50
+mongod --shardsvr --replSet shard1 --dbpath ./data/mongodb/sharding/repl1  --logpath ./data/mongodb/sharding/log.repl1  --port 27001 --fork --logappend --oplogSize 50
+mongod --shardsvr --replSet shard2 --dbpath ./data/mongodb/sharding/shard2 --logpath ./data/mongodb/sharding/log.shard2 --port 27100 --fork --logappend --oplogSize 50
+mongod --shardsvr --replSet shard2 --dbpath ./data/mongodb/sharding/repl2  --logpath ./data/mongodb/sharding/log.repl2  --port 27101 --fork --logappend --oplogSize 50
+
+mongo --port 26050
+cfg={_id:"rsConf",members:[{_id:0,host: "127.0.0.1:26050"},{_id: 1,host: "127.0.0.1:26051"}]}
+rs.initiate(cfg)
+
+mongo --port 27000
+cfg={_id:"shard1",members:[{_id:0,host: "127.0.0.1:27000"},{_id:1,host: "127.0.0.1:27001"}]}
+rs.initiate(cfg)
+
+mongo --port 27100
+cfg={_id:"shard2",members:[{_id:0,host: "127.0.0.1:27100"},{_id:1,host: "127.0.0.1:27101"}]}
+rs.initiate(cfg)
+
+mongos --configdb rsConf/127.0.0.1:26050,127.0.0.1:26051 --fork --logappend --logpath ./data/mongodb/shardlog --port 28001
+
+mongo --port 28001
+sh.addShard("shard1/127.0.0.1:27000")
+sh.addShard("shard2/127.0.0.1:27100")
+db.adminCommand({listShards:1})
+
+use aterrizApp
+db.Vuelo.ensureIndex({"_id": "hashed"})
+db.Historial.ensureIndex({"_id": "hashed"})
+sh.enableSharding("aterrizApp")
+sh.shardCollection("aterrizApp.Vuelo",{"_id": "hashed"})
+sh.shardCollection("aterrizApp.Historial",{"_id": "hashed"})

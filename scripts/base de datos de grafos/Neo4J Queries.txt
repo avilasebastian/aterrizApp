@@ -1,0 +1,122 @@
+create (Bonifacio:Usuario{nombre:'Bonifacio',apellido:'Gomez',edad:46})
+create (Clemente:Usuario{nombre:'Clemente',apellido:'Lopez',edad:34})
+create (Dalmacio:Usuario{nombre:'Dalmacio',apellido:'Martinez',edad:44})
+create (Emerito:Usuario{nombre:'Emerito',apellido:'Garcia',edad:25})
+create (Taciana:Usuario{nombre:'Taciana',apellido:'Moyano',edad:27})
+create (Ursula:Usuario{nombre:'Ursula',apellido:'Campos',edad:19})
+create (Valentina:Usuario{nombre:'Valentina',apellido:'Soto',edad:23})
+create (Zeferina:Usuario{nombre:'Zeferina',apellido:'Chavez',edad:23})
+create (Mariano:Usuario{nombre:'Mariano',apellido:'Castillo',edad:29})
+
+create (VueloParana1:Vuelo{ciudadOrigen:"Buenos Aires",aerolinea:"AeroPepita",horasDeVuelo:1,partida:dateTime({year:2020, month:6, day:10}),precio:100001})
+create (VueloBuenosAires2:Vuelo{ciudadOrigen:"Parana",aerolinea:"AeroPepita",horasDeVuelo:1,partida:dateTime({year:2020, month:6, day:20}),precio:1000})
+create (VueloSantaFe3:Vuelo{ciudadOrigen:"Buenos Aires",aerolinea:"AeroPepita",horasDeVuelo:2,partida:dateTime({year:2020, month:6, day:11}),precio:1000})
+create (VueloBuenosAires4:Vuelo{ciudadOrigen:"Santa Fe",aerolinea:"AeroPepita",horasDeVuelo:2,partida:dateTime({year:2020, month:6, day:11}),precio:1100})
+create (VueloUshuaia5:Vuelo{ciudadOrigen:"Santa Fe",aerolinea:"AeroPepita",horasDeVuelo:2,partida:dateTime({year:2020, month:6, day:11}),precio:1100})
+create (VueloMisiones6:Vuelo{ciudadOrigen:"Santa Fe",aerolinea:"AeroPepita",horasDeVuelo:2,partida:dateTime({year:2020, month:6, day:11}),precio:1100})
+create (VueloCordoba7:Vuelo{ciudadOrigen:"Buenos Aires",aerolinea:"DodainLlegaVolando",horasDeVuelo:3,partida:dateTime({year:2020, month:6, day:12}),precio:1200})
+create (VueloSanLuis8:Vuelo{ciudadOrigen:"Buenos Aires",aerolinea:"ChanchitoVolador",horasDeVuelo:3,partida:dateTime({year:2020, month:6, day:12}),precio:1300})
+create (VueloBuenosAires9:Vuelo{ciudadOrigen:"San Luis",aerolinea:"ChanchitoVolador",horasDeVuelo:3,partida:dateTime({year:2020, month:6, day:13}),precio:1300})
+create (VueloCordoba10:Vuelo{ciudadOrigen:"Santa Fe",aerolinea:"ChanchitoVolador",horasDeVuelo:3,partida:dateTime({year:2020, month:6, day:14}),precio:1400})
+
+
+create (BuenosAires:Ciudad{nombre:"BuenosAires",clima:"Calido"} )
+create (Parana:Ciudad{nombre:"Parana",clima:"Humedo"} )
+create (SantaFe:Ciudad{nombre:"Santa Fe",clima:"Calido"} )
+create (SanLuis:Ciudad{nombre:"San Luis",clima:"Seco"} )
+create (Cordoba:Ciudad{nombre:"Cordoba",clima:"Seco"} )
+create (Misiones:Ciudad{nombre:"Misiones",clima:"Calido"} )
+create (Ushuaia:Ciudad{nombre:"Ushuaia",clima:"Frio"} )
+			
+
+create
+    (Bonifacio)-[:amigo_de]->(Clemente),
+	(Bonifacio)-[:amigo_de]->(Dalmacio),
+	(Bonifacio)-[:amigo_de]->(Zeferina),
+	(Clemente)-[:amigo_de]->(Zeferina),
+	(Zeferina)-[:amigo_de]->(Clemente),
+	(Zeferina)-[:amigo_de]->(Emerito),
+	(Zeferina)-[:amigo_de]->(Ursula),
+	(Zeferina)-[:amigo_de]->(Valentina),
+	(Valentina)-[:amigo_de]->(Zeferina),
+	(Zeferina)-[:amigo_de]->(Mariano),
+	(Taciana)-[:amigo_de]->(Clemente),
+	(Taciana)-[:amigo_de]->(Bonifacio),
+	(Ursula)-[:amigo_de]->(Mariano),
+	(Ursula)-[:amigo_de]->(Dalmacio),
+	(Mariano)-[:amigo_de]->(Valentina),
+	(Emerito)-[:amigo_de]->(Taciana),
+	(Emerito)-[:amigo_de]->(Ursula),
+	(Dalmacio)-[:amigo_de]->(Clemente),
+
+	(Bonifacio)-[:tiene_pasaje]->(VueloParana1),
+	(Bonifacio)-[:tiene_pasaje]->(VueloSantaFe3),
+	(Clemente)-[:tiene_pasaje]->(VueloBuenosAires2),
+	(Clemente)-[:tiene_pasaje]->(VueloUshuaia5),
+	(Zeferina)-[:tiene_pasaje]->(VueloSantaFe3),
+	(Zeferina)-[:tiene_pasaje]->(VueloUshuaia5),
+	(Taciana)-[:tiene_pasaje]->(VueloCordoba7),
+	(Taciana)-[:tiene_pasaje]->(VueloCordoba7),
+	(Ursula)-[:tiene_pasaje]->(VueloSanLuis8),
+	(Ursula)-[:tiene_pasaje]->(VueloMisiones6),
+	(Dalmacio)-[:tiene_pasaje]->(VueloCordoba10),
+	(Dalmacio)-[:tiene_pasaje]->(VueloSanLuis8),
+	(Valentina)-[:tiene_pasaje]->(VueloBuenosAires4),
+	(Mariano)-[:tiene_pasaje]->(VueloParana1),
+
+
+	(VueloParana1)-[:se_dirige]->(Parana),
+	(VueloBuenosAires2)-[:se_dirige]->(BuenosAires),
+	(VueloSantaFe3)-[:se_dirige]->(SantaFe),
+	(VueloBuenosAires4)-[:se_dirige]->(BuenosAires),
+	(VueloUshuaia5)-[:se_dirige]->(Ushuaia),
+	(VueloMisiones6)-[:se_dirige]->(Misiones),
+	(VueloCordoba7)-[:se_dirige]->(Cordoba),
+	(VueloSanLuis8)-[:se_dirige]->(SanLuis),
+	(VueloBuenosAires9)-[:se_dirige]->(BuenosAires),
+	(VueloCordoba10)-[:se_dirige]->(Cordoba)
+
+WITH Bonifacio as a 
+MATCH (a) RETURN a
+
+
+// Integrante 1 
+//-Saber qué amigos tienen mis amigos que no son propios y que tengan más de 18 años.
+match (u:Usuario{nombre:"Bonifacio",edad:46})-[:amigo_de*2]->(posiblesAmigos)
+where not (u)-[:amigo_de]->(posiblesAmigos)
+and posiblesAmigos <> u
+return posiblesAmigos
+
+//-Saber qué vuelos aún no tomé (que la fecha actual es menor a la de salida del vuelo)
+match (usuario:Usuario{nombre:'Clemente',apellido:'Lopez',edad:34})-[:tiene_pasaje]->(vuelo:Vuelo)
+where dateTime() < vuelo.partida 
+return vuelo
+// vuelo comac 002 origen Parana
+
+//Integrante 2
+//-Saber qué vuelos no tengo pasaje y mis amigos sí con destino a una ciudad de clima frío.
+match (usuario:Usuario{nombre:'Bonifacio',apellido:'Gomez',edad:46})-[:amigo_de]->(amigo:Usuario)-[:tiene_pasaje]->(vuelo1:Vuelo)-[:se_dirige]->(ciudad:Ciudad)
+match (usuario)-[:tiene_pasaje]->(vuelo2:Vuelo)
+where ciudad.clima = "Frio" and vuelo1<>vuelo2
+return vuelo1
+// Ciudad: Ushuaia, amigos clemente y zeferina
+
+//-Saber que usuario tiene un pasaje de más de $100.000.
+match (u:Usuario{nombre:'Bonifacio',apellido:'Gomez',edad:46})-[:tiene_pasaje]->(vuelo:Vuelo)
+where vuelo.precio > 100000
+return vuelo
+// avion: comac 001 origen Buenos Aires
+
+
+//Integrante 3
+//-Saber quienes fueron mis compañeros en los viajes. (interpreto que son viajes ya realizados)
+match (u:Usuario{nombre:'Bonifacio',apellido:'Gomez',edad:46})-[:tiene_pasaje]->(vuelo:Vuelo)<-[:tiene_pasaje]-(companieros:Usuario)
+where vuelo.partida < dateTime()
+return companieros
+// mariano y zeferina
+
+//-Saber a qué ciudades viajó un usuario. (interpreto que son viajes ya realizados)
+match (u:Usuario{nombre:'Bonifacio',apellido:'Gomez',edad:46})-[:tiene_pasaje]->(vuelo:Vuelo)-[:se_dirige]->(ciudad:Ciudad)
+where vuelo.partida < dateTime()
+return ciudad.nombre
+// Santa Fe y Parana
